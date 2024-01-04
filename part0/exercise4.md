@@ -7,6 +7,8 @@ sequenceDiagram
     activate server
     server-->>browser: URL redirect (status code 302)
     deactivate server
+
+    Note right of browser: The server asks the browser to do a new GET request
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
