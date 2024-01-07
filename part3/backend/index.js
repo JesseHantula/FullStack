@@ -19,16 +19,16 @@ app.listen(PORT, () => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const body = request.body 
+  const body = request.body
   const options = { runValidators: true }
 
   const person = {
-    name: body.name, 
+    name: body.name,
     number: body.number
   }
-  Person.findByIdAndUpdate(request.params.id, person, {new: true}, options).then(updatedPerson => 
-    {
-      response.json(updatedPerson)
+  Person.findByIdAndUpdate(request.params.id, person, { new: true }, options).then(updatedPerson =>
+  {
+    response.json(updatedPerson)
   }).catch(error => next(error))
 })
 
@@ -56,7 +56,6 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  
   const person = new Person({
     name: body.name,
     number: body.number
@@ -67,7 +66,7 @@ app.post('/api/persons', (request, response, next) => {
   }).catch(error => next(error))
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
   Person.countDocuments({}).then(count => {
     const message = `Phonebook has info for ${count} people`
     const date = new Date()
@@ -80,7 +79,7 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-  return response.status(400).json({ error: error.message })
+    return response.status(400).json({ error: error.message })
   }
   next(error)
 }

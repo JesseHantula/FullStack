@@ -21,13 +21,13 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Person', personSchema)
 
 if (process.argv.length === 3) {
-    console.log("Phonebook:")
-    Person.find({}).then(result => {
-        result.forEach(person => {
-          console.log(`${person.name} ${person.number}`)
-        })
-        mongoose.connection.close()
-      })
+  console.log('Phonebook:')
+  Person.find({}).then(result => {
+    result.forEach(person => {
+      console.log(`${person.name} ${person.number}`)
+    })
+    mongoose.connection.close()
+  })
 }
 
 else if (process.argv.length === 5) {
@@ -36,7 +36,7 @@ else if (process.argv.length === 5) {
     number: process.argv[4]
   })
 
-  person.save().then(result => {
+  person.save().then(() => {
     console.log(`Added ${process.argv[3]} number ${process.argv[4]} to phonebook`)
     mongoose.connection.close()
   })
