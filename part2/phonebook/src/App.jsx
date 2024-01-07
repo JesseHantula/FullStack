@@ -53,6 +53,14 @@ const App = () => {
         setTimeout(() => {
           setNotification(null)
       }, 5000)
+      }).catch(error => {
+        setNotification({
+          'message': `${error.response.data.error}`,
+          'type': 'error'
+        })
+        setTimeout(() => {
+          setNotification(null)
+      }, 5000)
       })
     }
     else {
@@ -85,11 +93,17 @@ const App = () => {
 
   const deletePerson = (event) => {
     event.preventDefault()
-    const id = parseInt(event.target.id)
+    const id = event.target.id
     const name = event.target.name
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
       personService.deletePerson(id).then(returnedPerson => {
         setPersons(persons.filter(person => person.id !== id))
+        setNotification({
+          'message': `${name} successfully removed`,
+          'type': 'success'})
+        setTimeout(() => {
+          setNotification(null)
+      }, 5000)
       }).catch(error => {
         setNotification({
           'message': `The contact '${name}' was already deleted from server`,
